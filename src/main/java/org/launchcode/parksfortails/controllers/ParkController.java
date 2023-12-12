@@ -1,9 +1,12 @@
-package org.launchcode.Parks_For_Tails.controller;
+package org.launchcode.parksfortails.controllers;
 
-import org.launchcode.Parks_For_Tails.service.GoogleMapsService;
+
+import org.launchcode.parksfortails.services.GoogleMapsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 // The @RestController annotation marks this class as a controller in a RESTful web service
 @RestController
 // @RequestMapping at the class level specifies that all handler methods in this controller are relative to the "/parks" path
@@ -27,11 +30,11 @@ public class ParkController {
         }
     }
 
-    // Example of a basic exception handler method
+    // basic exception handler method
     // This method will handle all exceptions that are not explicitly caught in the controller's handler methods
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleExceptions(Exception ex) {
-        // Here you can log the exception and perform additional error handling as needed
+        // Here can log the exception to perform additional error handling as needed .
         // Returning a ResponseEntity with an error message and the HTTP status code INTERNAL_SERVER_ERROR
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
