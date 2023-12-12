@@ -1,7 +1,8 @@
-package org.launchcode.Parks_For_Tails.controller;
+package org.launchcode.parksfortails.controllers;
 
 import org.launchcode.Parks_For_Tails.service.GoogleMapsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 // The @RestController annotation marks this class as a controller in a RESTful web service
