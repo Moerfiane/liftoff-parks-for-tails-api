@@ -1,4 +1,4 @@
-package org.launchcode.parksfortails.models.data;
+package org.launchcode.parksfortails.data;
 
 import org.launchcode.parksfortails.models.User;
 import org.springframework.data.repository.CrudRepository;

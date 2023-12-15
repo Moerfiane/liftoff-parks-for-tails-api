@@ -1,4 +1,4 @@
-package org.launchcode.Parks_For_Tails.service;
+package org.launchcode.parksfortails.service;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
