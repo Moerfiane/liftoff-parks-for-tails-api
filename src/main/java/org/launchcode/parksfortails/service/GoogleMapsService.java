@@ -1,4 +1,5 @@
-package org.launchcode.parksfortails.service;
+
+package org.launchcode.parksfortails.services;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
@@ -7,33 +8,30 @@ import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 
-//This is the actual service class in your application that interacts with the Google Maps API.
-// It sends queries and processes responses from the API.
-
-@Service // Marks this class as a Spring service component
+@Service
 public class GoogleMapsService {
 
-    @Value("${google.maps.api-key}") // Injects the API key from application properties
+    // Injecting the Google Maps API key from application.properties
+    @Value("${google.maps.api-key}")
     private String apiKey;
 
+    // Method to search for parks based on a query
     public PlacesSearchResult[] searchParks(String query) throws InterruptedException, ApiException, IOException {
-        // Initializes the GeoApiContext with the API key
+        // Building the GeoApiContext with the provided API key
         GeoApiContext context = new GeoApiContext.Builder().apiKey(apiKey).build();
-
-        // Calls the method that makes the actual API request
+        // Calling the private method to execute the text search query
         return callTextSearchQuery(context, query);
     }
 
-    // Method that makes the API call; could be adjusted for testability or different implementations
-    protected PlacesSearchResult[] callTextSearchQuery(GeoApiContext context, String query)
+    // Private method to execute a text search query using the Google Maps API
+    private PlacesSearchResult[] callTextSearchQuery(GeoApiContext context, String query)
             throws InterruptedException, ApiException, IOException {
-        // Creates and sends a text search request to the Google Maps API
-        TextSearchRequest request = PlacesApi.textSearchQuery(context, query);
-        PlacesSearchResponse response = request.await(); // Waits for the response
-
-        // Returns the search results from the response
+        // Executing the text search query and awaiting the response
+        PlacesSearchResponse response = PlacesApi.textSearchQuery(context, query).await();
+        // Returning the array of search results
         return response.results;
     }
 }
