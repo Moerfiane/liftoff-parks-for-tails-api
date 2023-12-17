@@ -17,10 +17,10 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-security' // For user authorizatiom
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // For input validation
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'mysql:mysql-connector-java:8.0.32'
+	implementation 'mysql:mysql-connector-java:8.0.32' // MySQL & Java connection
 	implementation 'com.google.maps:google-maps-services:2.2.0' // Google Maps API
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
