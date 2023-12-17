@@ -3,10 +3,13 @@ package org.launchcode.parksfortails;
 // Importing necessary Spring Boot annotations and classes
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 // The @SpringBootApplication annotation is used to mark this class as the starting point of the Spring Boot application.
 // It enables auto-configuration, component scanning, and additional configuration capabilities.
 @SpringBootApplication
+// The @ComponentScan annotation is used to specify the base packages to scan for components (e.g., controllers, services).
+@ComponentScan(basePackages = "org.launchcode.parksfortails")
 public class ParksForTailsApplication {
 
 	// The main method is the entry point of the application.
