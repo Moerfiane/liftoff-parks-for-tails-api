@@ -1,6 +1,7 @@
 
-package org.launchcode.parksfortails.services;
+package org.launchcode.parksfortails.service;
 
+// Importing necessary classes from the Google Maps API and Spring Framework
 import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.errors.ApiException;
@@ -9,8 +10,10 @@ import com.google.maps.model.PlacesSearchResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+// Importing IOException for handling input/output exceptions
 import java.io.IOException;
 
+// Service annotation indicates that this class is a Spring service component
 @Service
 public class GoogleMapsService {
 

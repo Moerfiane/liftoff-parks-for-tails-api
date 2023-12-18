@@ -11,47 +11,59 @@ public class Search {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int searchId;
     private static int nextId = 1;
-    private String city;
-    private String state;
-
-    private int zipCode;
+    private String query;
+    private double latitude;
+    private double longitude;
+    private boolean petFriendly;
 
     public Search() {
     }
 
-    public Search(String city, String state, int zipCode) {
-        this.city = city;
-        this.state = state;
-        this.zipCode = zipCode;
+
+
+    public Search(String query, double latitude, double longitude, boolean petFriendly,int searchId ) {
+        this.query = query;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.petFriendly = petFriendly;
         this.searchId = nextId;
         nextId++;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public int getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(int zipCode) {
-        this.zipCode = zipCode;
     }
 
     public int getSearchId() {
         return searchId;
     }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public boolean isPetFriendly() {
+        return petFriendly;
+    }
+
+    public void setPetFriendly(boolean petFriendly) {
+        this.petFriendly = petFriendly;
+    }
+
 }

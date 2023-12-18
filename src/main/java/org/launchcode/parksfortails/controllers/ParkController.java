@@ -1,7 +1,7 @@
 package org.launchcode.parksfortails.controllers;
 
 
-import org.launchcode.parksfortails.services.GoogleMapsService;
+import org.launchcode.parksfortails.service.GoogleMapsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
