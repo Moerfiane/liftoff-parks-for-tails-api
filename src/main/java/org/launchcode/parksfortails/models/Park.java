@@ -1,22 +1,41 @@
 package org.launchcode.parksfortails.models;
 
-import jakarta.persistence.*;
-
+<<<<<<<<< Temporary merge branch 1
+// Park.java
+import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
+
+@Entity
+public class Park {
+
+=========
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "park")
 public class Park {
-        private String name;
-        private String location;
-        private String description;
-        private double latitude;
-        private double longitude;
-        private int establishedYear;
-        private List<String> facilities; // e.g., "Picnic areas," "Playground," "Hiking trails"
-        private boolean petFriendly;
-        private String imageUrl;
+>>>>>>>>> Temporary merge branch 2
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+<<<<<<<<< Temporary merge branch 1
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String location;
+
+    // Assume a OneToMany relationship with ParkComment entity
+    @OneToMany(mappedBy = "park", cascade = CascadeType.ALL)
+    private List<ParkComment> comments;
+
+    // Constructors, getters, setters
+
+    // Additional functionality and comments:
+
+    // This class represents the Park entity in the database.
+    // It contains fields such as id, name, and location that correspond to the park's attributes.
 
 
         public Park() {
@@ -61,79 +80,3 @@ public class Park {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public int getEstablishedYear() {
-        return establishedYear;
-    }
-
-    public void setEstablishedYear(int establishedYear) {
-        this.establishedYear = establishedYear;
-    }
-
-    public List<String> getFacilities() {
-        return facilities;
-    }
-
-    public void setFacilities(List<String> facilities) {
-        this.facilities = facilities;
-    }
-
-    public boolean isPetFriendly() {
-        return petFriendly;
-    }
-
-    public void setPetFriendly(boolean petFriendly) {
-        this.petFriendly = petFriendly;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Park park)) return false;
-        return Double.compare(getLatitude(), park.getLatitude()) == 0 && Double.compare(getLongitude(), park.getLongitude()) == 0 && getEstablishedYear() == park.getEstablishedYear() && isPetFriendly() == park.isPetFriendly() && Objects.equals(getName(), park.getName()) && Objects.equals(getLocation(), park.getLocation()) && Objects.equals(getDescription(), park.getDescription()) && Objects.equals(getFacilities(), park.getFacilities()) && Objects.equals(getImageUrl(), park.getImageUrl());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getLocation(), getDescription(), getLatitude(), getLongitude(), getEstablishedYear(), getFacilities(), isPetFriendly(), getImageUrl());
-    }
-
-    @Override
-    public String toString() {
-        return "Park{" +
-                "name='" + name + '\'' +
-                ", location='" + location + '\'' +
-                ", description='" + description + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", establishedYear=" + establishedYear +
-                ", facilities=" + facilities +
-                ", petFriendly=" + petFriendly +
-                ", imageUrl='" + imageUrl + '\'' +
-                '}';
-    }
-}
