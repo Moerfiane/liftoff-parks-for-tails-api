@@ -74,61 +74,64 @@ public class UserController {
             errors.rejectValue("username", "username.alreadyExists", "That username is already in use");
             return "register";
         }
-
-        String password = registrationFormDTO.getPassword(); //need to add registration DTO
-        String verifyPassword = registrationFormDTO.getVerifyPassword(); //need VP
-        if (!password.equals(verifyPassword)) {
-            errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
-            return "register";
-        }
-
-        User newUser = new User(registrationFormDTO.getUsername(), registrationFormDTO.getPassword());
-        userRepository.save(newUser);
-        setUserInSession(request.getSession(), newUser);
-        return "redirect:/artworks";
+    return "register";
     }
 
+//        String password = registrationFormDTO.getPassword(); //need to add registration DTO
+//        String verifyPassword = registrationFormDTO.getVerifyPassword(); //need VP
+//        if (!password.equals(verifyPassword)) {
+//            errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
+//            return "register";
+//        }
 
-    @GetMapping("/login")
-    public String displayLoginForm(Model model, HttpSession session) {
-        model.addAttribute(new LoginFormDTO()); // "loginFormDTO" variable implicit
-        model.addAttribute("loggedIn", session.getAttribute("user") != null);
-        return "login";
+//        User newUser = new User(registrationFormDTO.getUsername(), registrationFormDTO.getPassword());
+//        userRepository.save(newUser);
+//        setUserInSession(request.getSession(), newUser);
+//        return "redirect:/artworks";
+//    }
+
+
+//  @GetMapping("/login")
+//    public String displayLoginForm(Model model, HttpSession session) {
+//        model.addAttribute(new LoginFormDTO()); // "loginFormDTO" variable implicit
+//        model.addAttribute("loggedIn", session.getAttribute("user") != null);
+//        return "login";
+//    }
+//
+//    @PostMapping("/login")
+//    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
+//                                   Errors errors,
+//                                   HttpServletRequest request) {
+//
+//       if (errors.hasErrors()) {
+//            return "login";
+//        }
+//
+//
+//        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
+//
+//
+//        String password = loginFormDTO.getPassword();
+//
+//
+//        if (theUser == null || !theUser.isMatchingPassword(password)) {
+//            errors.rejectValue(
+//                    "password",
+//                    "login.invalid",
+//                    "Invalid login. Please try again with the correct username/password combination."
+//            );
+//            return "login";
+//        }
+//
+//
+//        setUserInSession(request.getSession(), theUser);
+//        return "redirect:/"; //needs main url
+//    }
+//
+//        @GetMapping("/logout")
+//    public String logout(HttpServletRequest request){
+//        request.getSession().invalidate();
+//        return "redirect:/login";
+//
+//}
     }
-
-    @PostMapping("/login")
-    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
-                                   Errors errors,
-                                   HttpServletRequest request) {
-
-       if (errors.hasErrors()) {
-            return "login";
-        }
-
-
-        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
-
-
-        String password = loginFormDTO.getPassword();
-
-
-        if (theUser == null || !theUser.isMatchingPassword(password)) {
-            errors.rejectValue(
-                    "password",
-                    "login.invalid",
-                    "Invalid login. Please try again with the correct username/password combination."
-            );
-            return "login";
-        }
-
-
-        setUserInSession(request.getSession(), theUser);
-        return "redirect:/"; //needs main url
-    }
-
-        @GetMapping("/logout")
-    public String logout(HttpServletRequest request){
-        request.getSession().invalidate();
-        return "redirect:/login";
-
-}
