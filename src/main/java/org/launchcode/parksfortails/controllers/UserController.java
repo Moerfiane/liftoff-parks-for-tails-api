@@ -25,13 +25,12 @@ public class UserController {
 
     private static final String userSessionKey = "user";  // user ID key
 
+    //stores user session
     private static void setUserInSession(HttpSession session, User user) {
         session.setAttribute(userSessionKey, user.getId());
-        System.out.println("session: " + session.getAttribute("user"));
     }
 
-
-    //get user if not null or empty
+    //get user if session exists (not null or empty)
     public User getUserFromSession(HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute(userSessionKey);
@@ -49,7 +48,6 @@ public class UserController {
     }
 
     //registration form
-
     @GetMapping("/register")
     public String displayRegistrationForm(Model model, HttpSession session) {
         model.addAttribute(new RegistrationFormDTO());
@@ -66,72 +64,70 @@ public class UserController {
             return "register";
         }
 
-
-        User existingUser = userRepository.findByUsername(registrationFormDTO.getUsername()); //need to add registration DTO
-
+        User existingUser = userRepository.findByUsername(registrationFormDTO.getUsername());
 
         if (existingUser != null) {
-            errors.rejectValue("username", "username.alreadyExists", "That username is already in use");
+            errors.rejectValue("username", "username.alreadyExists", "That username already exists");
             return "register";
         }
-    return "register";
+
+        //checking if password and verify password fields match
+        String password = registrationFormDTO.getPassword();
+        String verifyPassword = registrationFormDTO.getVerifyPassword();
+        if (!password.equals(verifyPassword)) {
+            errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
+            return "register";
+        }
+
+        //saves user & password; logs in & sends to search page
+        User newUser = new User(registrationFormDTO.getUsername(), registrationFormDTO.getPassword());
+        userRepository.save(newUser);
+        setUserInSession(request.getSession(), newUser);
+        return "redirect:/search";
     }
 
-//        String password = registrationFormDTO.getPassword(); //need to add registration DTO
-//        String verifyPassword = registrationFormDTO.getVerifyPassword(); //need VP
-//        if (!password.equals(verifyPassword)) {
-//            errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
-//            return "register";
-//        }
+    //login page
+  @GetMapping("/login")
+    public String displayLoginForm(Model model, HttpSession session) {
+        model.addAttribute(new LoginFormDTO());
+        model.addAttribute("loggedIn", session.getAttribute("user") != null);
+        return "login";
+    }
 
-//        User newUser = new User(registrationFormDTO.getUsername(), registrationFormDTO.getPassword());
-//        userRepository.save(newUser);
-//        setUserInSession(request.getSession(), newUser);
-//        return "redirect:/artworks";
-//    }
+    @PostMapping("/login")
+    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
+                                   Errors errors,
+                                   HttpServletRequest request) {
+
+       if (errors.hasErrors()) {
+            return "login";
+        }
 
 
-//  @GetMapping("/login")
-//    public String displayLoginForm(Model model, HttpSession session) {
-//        model.addAttribute(new LoginFormDTO()); // "loginFormDTO" variable implicit
-//        model.addAttribute("loggedIn", session.getAttribute("user") != null);
-//        return "login";
-//    }
-//
-//    @PostMapping("/login")
-//    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
-//                                   Errors errors,
-//                                   HttpServletRequest request) {
-//
-//       if (errors.hasErrors()) {
-//            return "login";
-//        }
-//
-//
-//        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
-//
-//
-//        String password = loginFormDTO.getPassword();
-//
-//
-//        if (theUser == null || !theUser.isMatchingPassword(password)) {
-//            errors.rejectValue(
-//                    "password",
-//                    "login.invalid",
-//                    "Invalid login. Please try again with the correct username/password combination."
-//            );
-//            return "login";
-//        }
-//
-//
-//        setUserInSession(request.getSession(), theUser);
-//        return "redirect:/"; //needs main url
-//    }
-//
-//        @GetMapping("/logout")
-//    public String logout(HttpServletRequest request){
-//        request.getSession().invalidate();
-//        return "redirect:/login";
-//
-//}
+        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
+
+        String password = loginFormDTO.getPassword();
+
+        //verify if username exists and username + password (hashed) match
+        if (theUser == null || !theUser.isMatchingPassword(password)) {
+            errors.rejectValue(
+                    "password",
+                    "login.invalid",
+                    "Invalid login. Please try again."
+            );
+            return "login";
+        }
+
+        //if correct, login & send to search page
+        setUserInSession(request.getSession(), theUser);
+        return "redirect:/search";
+    }
+
+    //logout page
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:/login";
+
+}
     }

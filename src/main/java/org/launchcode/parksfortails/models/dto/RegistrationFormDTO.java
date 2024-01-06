@@ -4,30 +4,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class RegistrationFormDTO {
-    @NotNull(message = "Username is required")
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 30, message = "Username must be 3-30 characters long.")
-    private String username;
+public class RegistrationFormDTO extends LoginFormDTO{
 
     @NotNull(message = "Password is required")
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = "Password cannot be blank")
     @Size(min = 6, max = 30, message = "Password must be 6-30 characters long.")
-    private String password;
+    private String verifyPassword;
 
-    public String getUsername() {
-        return username;
+    public String getVerifyPassword() {
+        return verifyPassword;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setVerifyPassword(String verifyPassword) {
+        this.verifyPassword = verifyPassword;
     }
 }

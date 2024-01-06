@@ -7,6 +7,7 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Objects;
 
@@ -26,12 +27,23 @@ public class User {
     @Email(message = "Must be a valid email.")
     private String email;
 
+    @NotNull
+    private String pwhash;
+
     public User() {}
 
-    public User(int id, String username, String email) {
+    //does id & email need to be here?
+    public User(String username, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
+        this.pwhash = encoder.encode(password);
+    }
+
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, pwhash);
     }
 
     public int getId() {
